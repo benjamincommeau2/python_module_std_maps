@@ -2,5 +2,9 @@
 # Currently works for default library path installation for python3.6 and numpy1.17. Changing the header library calls for these versions may be required in the C++ python extenders may be required.
 ```console
 foo@bar:~$ bash install_StdMapPythonC_in_python.sh
-foo
 ```
+# Compile Python C++ extender.
+```console
+foo@bar:~$ python3 test_StdMapPythonC.py
+```
+# Run run python3 test script.
