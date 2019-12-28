@@ -9,7 +9,7 @@ clear ; python test_StdMapPythonC.py
     static struct PyModuleDef moduledef = { \
         PyModuleDef_HEAD_INIT, name, doc, -1, methods, }; \
     ob = PyModule_Create(&moduledef);
-#define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+#define NPY_NO_DEPRECATED_API NPY_1_17_API_VERSION
 #include </usr/include/python3.6/Python.h>
 #include </usr/local/lib/python3.6/dist-packages/numpy/core/include/numpy/arrayobject.h>
 #include <stdio.h>
@@ -172,7 +172,7 @@ static PyObject * moduleinit(void)
     return NULL; // exit python function call?
   }
     /* Load `numpy` functionality. */
-  //import_array(); // has an implicit declaration warning, probabliy resolved when python compiles
+  import_array(); // has an implicit declaration warning, probabliy resolved when python compiles
   return mm;
 }
 PyMODINIT_FUNC PyInit_StdMapPythonC(void)
@@ -509,8 +509,8 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
     printf("_StdMapPythonC error : only one input allowed\n");
     return 1;
   }
-  std::cout << "Start1" << x_obj[0][0] << std::endl;
-  *x_array = PyArray_FROM_OTF(*x_obj, NPY_CDOUBLE, NPY_IN_ARRAY);
+  std::cout << "Start1" << x_obj << std::endl;
+  *x_array = PyArray_FROM_OTF(*x_obj, NPY_COMPLEX128, NPY_IN_ARRAY);
   std::cout << "Start2" << std::endl;
   if ((*x_array == NULL))
   { // return 1 for unable to allocate memory to new python object
