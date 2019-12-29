@@ -20,7 +20,7 @@ if(nerrors<1):
 from distutils.core import setup, Extension
 #import numpy.distutils.misc_util
  
-c_ext = Extension("StdMapPythonC", sources=["StdMapPythonC.cpp"],
+c_ext = Extension("FGT", sources=["FGT.cpp"],
   language='c++',extra_compile_args=["-std=c++11","-fmax-errors="+str(nerrors)])
  
 print("finished")

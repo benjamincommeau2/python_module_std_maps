@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-import StdMapPythonC
+import FGT
 print()
 list_type=[np.int,np.cdouble,np.double,np.complex]
 mytype=list_type[int(sys.argv[1])]
@@ -15,7 +15,7 @@ x+=1j*np.random.randn(4,4)
 #print(x)
 #print("StdMapPythonC.fgt(x)=")
 try:
-  y=StdMapPythonC.fgt(x)
+  y=FGT.fgt(x)
 except Exception as e:
   print("("+str(sys.argv[1])+"): Failed dtype exception check using dtype="+str(mytype))
   #print(e.what())

@@ -2,8 +2,8 @@
 This code was taken from Dan Foreman-Mackey and modified.
 Source Code : https://gist.github.com/dfm/3247796
 Source Documentation : http://dan.iel.fm/posts/python-c-extensions/
-clear ; python setup_StdMapPythonC.py build_ext --inplace
-clear ; python test_StdMapPythonC.py
+clear ; python setup_FGT.py build_ext --inplace
+clear ; python test_FGT.py
 */
 #define MOD_DEF(ob, name, doc, methods) \
     static struct PyModuleDef moduledef = { \
@@ -38,22 +38,22 @@ std::complex<double> imaginary_number=std::complex<double>{1,0};
 /*
 Available functions 
 This is a declaration of a structure type.
-This is our declaration of our 'fgt_StdMapPythonC' function for python.
+This is our declaration of our 'fgt_FGT' function for python.
 It specifies all input and output objects of our function.
-The name that we've given to the function (fgt_StdMapPythonC) is also a matter of convention and nessaray because {module_name}_{function_name}. 
-The name for this c file given as '_StdMapPythonC' is a matter of convention and necessary.
-Calling the function in python is _StdMapPythonC.fgt(), where _StdMapPythonC is the name of the module and fgt is the name of the function. 
+The name that we've given to the function (fgt_FGT) is also a matter of convention and nessaray because {module_name}_{function_name}. 
+The name for this c file given as '_FGT' is a matter of convention and necessary.
+Calling the function in python is _FGT.fgt(), where _FGT is the name of the module and fgt is the name of the function. 
 the '_' for c is equivalent for the '.' in python in regards to class extensions
 */
-static PyObject *rear_StdMapPythonC(PyObject *self, PyObject *args); 
-static PyObject *irear_StdMapPythonC(PyObject *self, PyObject *args); 
-static PyObject *fgt_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *ifgt_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *parity_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *iparity_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *auto_pad_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *fhgt_StdMapPythonC(PyObject *self, PyObject *args);
-static PyObject *ifhgt_StdMapPythonC(PyObject *self, PyObject *args);
+static PyObject *rear_FGT(PyObject *self, PyObject *args); 
+static PyObject *irear_FGT(PyObject *self, PyObject *args); 
+static PyObject *fgt_FGT(PyObject *self, PyObject *args);
+static PyObject *ifgt_FGT(PyObject *self, PyObject *args);
+static PyObject *parity_FGT(PyObject *self, PyObject *args);
+static PyObject *iparity_FGT(PyObject *self, PyObject *args);
+static PyObject *auto_pad_FGT(PyObject *self, PyObject *args);
+static PyObject *fhgt_FGT(PyObject *self, PyObject *args);
+static PyObject *ifhgt_FGT(PyObject *self, PyObject *args);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// python documentation ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,31 +142,31 @@ static char auto_pad_docstring[] =
 /*
 Module specification
 This specifies all functional members of this python module
-In our case there is only one, which is 'fgt_StdMapPythonC' as defined above
+In our case there is only one, which is 'fgt_FGT' as defined above
 */
 static PyMethodDef module_methods[] = {
-  {"rear", rear_StdMapPythonC, METH_VARARGS, rear_docstring},
-  {"irear", irear_StdMapPythonC, METH_VARARGS, irear_docstring},
-  {"fgt", fgt_StdMapPythonC, METH_VARARGS, fgt_docstring},
-  {"ifgt", ifgt_StdMapPythonC, METH_VARARGS, ifgt_docstring},
-  {"fhgt", fhgt_StdMapPythonC, METH_VARARGS, fhgt_docstring},
-  {"ifhgt", ifhgt_StdMapPythonC, METH_VARARGS, ifhgt_docstring},
-  {"parity", parity_StdMapPythonC, METH_VARARGS, parity_docstring},
-  {"iparity", iparity_StdMapPythonC, METH_VARARGS, iparity_docstring},
-  {"auto_pad", auto_pad_StdMapPythonC, METH_VARARGS, auto_pad_docstring},
+  {"rear", rear_FGT, METH_VARARGS, rear_docstring},
+  {"irear", irear_FGT, METH_VARARGS, irear_docstring},
+  {"fgt", fgt_FGT, METH_VARARGS, fgt_docstring},
+  {"ifgt", ifgt_FGT, METH_VARARGS, ifgt_docstring},
+  {"fhgt", fhgt_FGT, METH_VARARGS, fhgt_docstring},
+  {"ifhgt", ifhgt_FGT, METH_VARARGS, ifhgt_docstring},
+  {"parity", parity_FGT, METH_VARARGS, parity_docstring},
+  {"iparity", iparity_FGT, METH_VARARGS, iparity_docstring},
+  {"auto_pad", auto_pad_FGT, METH_VARARGS, auto_pad_docstring},
   {NULL, NULL, 0, NULL} // tells the compiler there are no more methods
 };
 /*
 Initialize the module.
 This initializes are module containing our function.
 This initializing module function must be named as 'init'+'ourmodulename',
-which in our case will be 'init'+'_StdMapPythonC' = 'init_StdMapPythonC' .
+which in our case will be 'init'+'_FGT' = 'init_FGT' .
 */
 static PyObject * moduleinit(void)
 {
-  //PyObject *mm = PyModule_Create("_StdMapPythonC", module_methods, module_docstring);
+  //PyObject *mm = PyModule_Create("_FGT", module_methods, module_docstring);
   PyObject *mm;
-  MOD_DEF(mm,"_StdMapPythonC",module_docstring,module_methods);
+  MOD_DEF(mm,"_FGT",module_docstring,module_methods);
   if (mm == NULL)
   { // i think this checks if the initialization of our function fgt failed
     return NULL; // exit python function call?
@@ -175,7 +175,7 @@ static PyObject * moduleinit(void)
   import_array(); // has an implicit declaration warning, probabliy resolved when python compiles
   return mm;
 }
-PyMODINIT_FUNC PyInit_StdMapPythonC(void)
+PyMODINIT_FUNC PyInit_FGT(void)
 {
   return moduleinit();
 }
@@ -183,10 +183,10 @@ PyMODINIT_FUNC PyInit_StdMapPythonC(void)
 //// python methods //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
-This is our functional code for fgt_StdMapPythonC,
+This is our functional code for fgt_FGT,
 which one can write any c programming functionality for our python function 'fgt'
 */
-static PyObject *parity_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *parity_FGT(PyObject *self, PyObject *args)
 {
   /* Computes the Coefficient of A , such that A*gamma[x,y] is hermitian*/
   PyObject *x_obj,*x_array,*y_array;
@@ -199,7 +199,7 @@ static PyObject *parity_StdMapPythonC(PyObject *self, PyObject *args)
   parity(y,NN);
   return y_array;
 }
-static PyObject *iparity_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *iparity_FGT(PyObject *self, PyObject *args)
 {
   /* Computes the Coefficient of A , such that A*gamma[x,y] is hermitian*/
   PyObject *x_obj,*x_array,*y_array;
@@ -212,7 +212,7 @@ static PyObject *iparity_StdMapPythonC(PyObject *self, PyObject *args)
   iparity(y,NN);
   return y_array;
 }
-static PyObject *fhgt_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *fhgt_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Fast Hermitian Gamma Transform of Input Matrix
    * Input is one matrix 
@@ -236,7 +236,7 @@ static PyObject *fhgt_StdMapPythonC(PyObject *self, PyObject *args)
   //Py_XDECREF(x_array);//Py_XDECREF(x_obj);//Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *ifhgt_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *ifhgt_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Inverse Fast Hermitian Gamma Transform of Input Matrix
    * Input is one matrix 
@@ -259,7 +259,7 @@ static PyObject *ifhgt_StdMapPythonC(PyObject *self, PyObject *args)
 //  Py_XDECREF(x_obj);Py_XDECREF(x_array);Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *fgt_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *fgt_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Fast Gamma Transform of Input Matrix
    * Input is one matrix 
@@ -282,7 +282,7 @@ static PyObject *fgt_StdMapPythonC(PyObject *self, PyObject *args)
   //Py_XDECREF(x_array);//Py_XDECREF(x_obj);//Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *ifgt_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *ifgt_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Inverse Fast Gamma Transform of Input Matrix
    * Input is one matrix 
@@ -304,7 +304,7 @@ static PyObject *ifgt_StdMapPythonC(PyObject *self, PyObject *args)
 //  Py_XDECREF(x_obj);Py_XDECREF(x_array);Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *auto_pad_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *auto_pad_FGT(PyObject *self, PyObject *args)
 {
   /* Returns new matrix with zero padding
    * Input is one matrix 
@@ -320,7 +320,7 @@ static PyObject *auto_pad_StdMapPythonC(PyObject *self, PyObject *args)
 //  Py_XDECREF(x_obj);Py_XDECREF(x_array);Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *rear_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *rear_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Fast Rearrange Transform of Input Matrix
    * Input is one matrix 
@@ -337,7 +337,7 @@ static PyObject *rear_StdMapPythonC(PyObject *self, PyObject *args)
 //  Py_XDECREF(x_obj);Py_XDECREF(x_array);Py_XDECREF(y_array);
   return y_array;
 }
-static PyObject *irear_StdMapPythonC(PyObject *self, PyObject *args)
+static PyObject *irear_FGT(PyObject *self, PyObject *args)
 {
   /* Returns Inverse Fast Rearrange Transform of Input Matrix
    * Input is one matrix 
@@ -505,7 +505,7 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
    * double stars for pointers are double layers of address-inception, reference of a reference */
   if (!PyArg_ParseTuple(args, "O", x_obj))
   { 
-    printf("_StdMapPythonC error : only one input allowed\n");
+    printf("_FGT error : only one input allowed\n");
     return 1;
   }
   try
@@ -520,22 +520,22 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
   }
   if ((*x_array == NULL))
   { // return 1 for unable to allocate memory to new python object
-    printf("_StdMapPythonC error : unable to allocate memory\n");
+    printf("_FGT error : unable to allocate memory\n");
     Py_XDECREF(*x_array); 
     return 1;
   }
   /* check dimension number */
   if(PyArray_NDIM(*x_array) !=2)
   {
-    printf("_StdMapPythonC error : array's number of dimensions is not 2 \n");    
+    printf("_FGT error : array's number of dimensions is not 2 \n");    
     return 2;
   }
   /* check square-ness */
   int64_t *x_dims = PyArray_DIMS(*x_array);
   if(x_dims[0]!=x_dims[1])
   {
-    //printf("_StdMapPythonC error : array is not a square matrix : x_dims=(%"PRId64",%"PRId64")\n",x_dims[0],x_dims[1]);    
-    std::cout << "_StdMapPythonC error : array is not a square matrix : x_dims=(" <<
+    //printf("_FGT error : array is not a square matrix : x_dims=(%"PRId64",%"PRId64")\n",x_dims[0],x_dims[1]);    
+    std::cout << "_FGT error : array is not a square matrix : x_dims=(" <<
       std::to_string(x_dims[0]) << "," << std::to_string(x_dims[1]) <<
       ")\n" << std::endl;    
     return 3;
@@ -553,7 +553,7 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
     *y_array = PyArray_SimpleNew(2, dims, NPY_CDOUBLE);
     if ((*y_array == NULL))
     { 
-      printf("_StdMapPythonC error : unable to allocate memory\n");
+      printf("_FGT error : unable to allocate memory\n");
       Py_XDECREF(*y_array); 
       Py_XDECREF(*x_array); 
       return 1;
