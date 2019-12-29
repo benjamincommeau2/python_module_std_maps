@@ -1,3 +1,4 @@
+# Unfinished project. Currently under development. Next step is to modify StdMapPython.cpp to create its own type of python variable as std::map if that is possible.
 # Creating a python module that allows the user to store numpy arrays in C++ standard library maps.
 # Currently works for default library path installation for python3.6 and numpy1.17. Changing the header library calls for these versions may be required in the C++ python extender script (e.i. StdMapPythonC.cpp and StdMapPython.h) may be required.
 ```console
