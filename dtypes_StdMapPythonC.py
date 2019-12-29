@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import StdMapPythonC
+print()
 list_type=[np.int,np.cdouble,np.double,np.complex]
 mytype=list_type[int(sys.argv[1])]
 print("("+str(sys.argv[1])+"): Start python3 dtype exception test #"+str(mytype))

@@ -7,4 +7,4 @@ foo@bar:~$ bash install_StdMapPythonC_in_python.sh
 ```console
 foo@bar:~$ python3 test_StdMapPythonC.py
 ```
-# Run run python3 test script.
+# Run run python3 test script. Calls multiple python scripts called dtype_StdMapPython.cpp passing different numpy value types and tests if the try catch block in the StdMapPython.cpp catches any errors and displays them in the terminal.
