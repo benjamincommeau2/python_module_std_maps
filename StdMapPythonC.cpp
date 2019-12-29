@@ -503,32 +503,35 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
 {
   /* Redundent Object Creation in similar python methods
    * double stars for pointers are double layers of address-inception, reference of a reference */
-  std::cout << "Start" << std::endl;
   if (!PyArg_ParseTuple(args, "O", x_obj))
   { 
     printf("_StdMapPythonC error : only one input allowed\n");
     return 1;
   }
-  std::cout << "Start1" << x_obj << std::endl;
-  *x_array = PyArray_FROM_OTF(*x_obj, NPY_COMPLEX128, NPY_IN_ARRAY);
-  std::cout << "Start2" << std::endl;
+  try
+  {
+    *x_array = PyArray_FROM_OTF(*x_obj, NPY_COMPLEX128, NPY_IN_ARRAY);
+  }
+  catch(const std::exception& e)
+  {
+    std::cout << e.what() << std::endl;
+    Py_XDECREF(*x_array); 
+    return 1;
+  }
   if ((*x_array == NULL))
   { // return 1 for unable to allocate memory to new python object
     printf("_StdMapPythonC error : unable to allocate memory\n");
     Py_XDECREF(*x_array); 
     return 1;
   }
-  std::cout << "Start3" << std::endl;
   /* check dimension number */
   if(PyArray_NDIM(*x_array) !=2)
   {
     printf("_StdMapPythonC error : array's number of dimensions is not 2 \n");    
     return 2;
   }
-  std::cout << "Start4" << std::endl;
   /* check square-ness */
   int64_t *x_dims = PyArray_DIMS(*x_array);
-  std::cout << "Start5" << std::endl;
   if(x_dims[0]!=x_dims[1])
   {
     //printf("_StdMapPythonC error : array is not a square matrix : x_dims=(%"PRId64",%"PRId64")\n",x_dims[0],x_dims[1]);    
@@ -537,17 +540,11 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
       ")\n" << std::endl;    
     return 3;
   }
-  std::cout << "Start6" << std::endl;
   /* assign array to c pointer */
-  std::cout << "Start7" << std::endl;
   *x = (std::complex<double> *)PyArray_DATA(*x_array);
-  std::cout << "Start8" << std::endl;
   *N = (int64_t)PyArray_DIM(*x_array, 0);
-  std::cout << "Start9" << std::endl;
   int64_t n = (int64_t)ceil(log2(*N)); 
-  std::cout << "Start10" << std::endl;
   *NN = 1<<n;
-  std::cout << "Start11" << std::endl;
   if(*N!=*NN)
   { // create y as a new data object of greater size
     npy_intp dims[2]; //this could cause a problem ///////////////////////////////////////////////////////////////
@@ -569,7 +566,6 @@ int64_t init_arrays(PyObject *self, PyObject *args, PyObject **x_obj, PyObject *
     *y_array = *x_array;
     *y=*x;
   }
-  std::cout << "End" << std::endl;
   return 0;
 }
 void parity(std::complex<double> *z,int NN)
